@@ -1,0 +1,36 @@
+name: Linux
+on: [push, pull_request, workflow_dispatch]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        container: ["debian-i386", "debian"]
+
+    container:
+      image: ghcr.io/${{ github.repository_owner }}/${{ matrix.container }}
+
+    steps:
+      - name: Get Sources
+        uses: actions/checkout@v2
+        with:
+          path: 'subdir'
+
+      - name: Debug
+        run: |
+          pwd
+          ls -l
+
+      - name: Build
+        run: |
+          mkdir build
+          cd build
+          cmake ../subdir
+          cmake --build .
+
+      - name: Run
+        run: |
+          ./build/main
