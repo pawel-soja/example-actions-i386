@@ -9,7 +9,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        container: ["debian-i386"]
+        container: ["debian-i386", "debian"]
 
     steps:
       - name: Login to Registry
